@@ -59,6 +59,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
     const productId = button.dataset.productId
     let matchingId;
+    let totalQuantity = 0;
 
     cart.forEach((item) => {
       if (productId === item.productId) {
@@ -76,7 +77,14 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
           quantity: 1
         })
       }
-    console.log(cart)
+
+    cart.forEach((item) => {
+      totalQuantity += item.quantity
+    })
+
+    document.querySelector('.js-cart-quantity').innerHTML = totalQuantity
+    
+
   })
 
 
