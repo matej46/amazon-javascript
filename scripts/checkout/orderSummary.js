@@ -3,6 +3,7 @@ import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js'
 import { deliveryOptions, getDeliveryOption } from '../../data/deliveryOptions.js'
+import { renderPaymentSummary } from './paymentSummary.js';
 
 
 export function renderOrderSummary() {
@@ -131,6 +132,7 @@ export function renderOrderSummary() {
       const {productId, deliveryOptionId} = element.dataset;
       updateDeliveryOption(productId, deliveryOptionId)
       renderOrderSummary()
+      renderPaymentSummary()
     })
   })
 
@@ -140,6 +142,7 @@ export function renderOrderSummary() {
     deleteLink.addEventListener('click', () => {
       const productId = deleteLink.dataset.productId
       removeFromCart(productId)
+      renderPaymentSummary()
     
     const container = document.querySelector(`.js-cart-item-container-${productId}`)
     container.remove()
@@ -164,7 +167,7 @@ export function renderOrderSummary() {
       const updatedQuantity = container.querySelector('.js-quantity-input').value
       updateQuantity(productId, updatedQuantity)
       updateCartQuantity()
-
+      renderPaymentSummary()
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML=updatedQuantity
 
       container.classList.remove('is-editing-quantity')
