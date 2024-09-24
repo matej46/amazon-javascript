@@ -12,7 +12,7 @@ export function renderOrderSummary() {
   let totalQuantity = 0;
 
     totalQuantity=updateCartQuantity()
-    document.querySelector('.js-checkout-items-count').innerHTML = totalQuantity
+    document.querySelector('.js-checkout-items-count').innerHTML = totalQuantity + ' items'
 
 
 
