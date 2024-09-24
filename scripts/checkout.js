@@ -4,17 +4,39 @@ import { loadProducts, loadProductsFetch } from "../data/products.js";
 import { loadCart } from "../data/cart.js";
 
 
-Promise.all([
-  loadProductsFetch(),
-  new Promise((resolve) => {
+async function loadPage() {
+
+  await loadProductsFetch()
+
+  await new Promise((resolve) => {
     loadCart(() => {
       resolve()
     });
   })
-]).then(() => {
+
   renderOrderSummary()
   renderPaymentSummary()
-});
+
+}
+
+loadPage()
+
+// loadPage().then((value) => {
+//   console.log('next step')
+//   console.log(value)
+// })
+
+// Promise.all([
+//   loadProductsFetch(),
+//   new Promise((resolve) => {
+//     loadCart(() => {
+//       resolve()
+//     });
+//   })
+// ]).then(() => {
+//   renderOrderSummary()
+//   renderPaymentSummary()
+// });
 
 // new Promise((resolve) => {
 
