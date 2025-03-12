@@ -11,7 +11,7 @@ export function renderOrderSummary() {
   let cartSummaryHtml = ''
   let totalQuantity = 0;
 
-    totalQuantity=updateCartQuantity()
+    totalQuantity=Number(updateCartQuantity())
     document.querySelector('.js-checkout-items-count').innerHTML = totalQuantity + ' items'
 
 
@@ -146,7 +146,7 @@ export function renderOrderSummary() {
     
     const container = document.querySelector(`.js-cart-item-container-${productId}`)
     container.remove()
-    totalQuantity=updateCartQuantity()
+    totalQuantity=Number(updateCartQuantity())
     document.querySelector('.js-checkout-items-count').innerHTML = totalQuantity
     })
   })
@@ -164,11 +164,15 @@ export function renderOrderSummary() {
     saveLink.addEventListener('click', () => {
       const productId = saveLink.dataset.productId
       const container = document.querySelector(`.js-cart-item-container-${productId}`)
-      const updatedQuantity = container.querySelector('.js-quantity-input').value
+      const updatedQuantity = Number(container.querySelector('.js-quantity-input').value)
       updateQuantity(productId, updatedQuantity)
-      updateCartQuantity()
+      totalQuantity = updateCartQuantity()
+      totalQuantity = Number(totalQuantity)
       renderPaymentSummary()
     document.querySelector(`.js-quantity-label-${productId}`).innerHTML=updatedQuantity
+
+    
+    document.querySelector('.js-checkout-items-count').innerHTML = totalQuantity + ' items'
 
       container.classList.remove('is-editing-quantity')
     })

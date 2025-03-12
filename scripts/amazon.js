@@ -35,7 +35,7 @@ function renderProductsGrid() {
             </div>
 
             <div class="product-quantity-container">
-              <select>
+              <select class="js-quantity-selector-${product.id}">
                 <option selected value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -53,7 +53,7 @@ function renderProductsGrid() {
           
             <div class="product-spacer"></div>
 
-            <div class="added-to-cart">
+            <div class="added-to-cart js-added-to-cart${product.id}">
               <img src="images/icons/checkmark.png">
               Added
             </div>
@@ -69,17 +69,46 @@ function renderProductsGrid() {
       let totalQuantity=updateCartQuantity()
       document.querySelector('.js-cart-quantity').innerHTML = totalQuantity
 
+  let timeoutId;
 
   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
+      totalQuantity=updateCartQuantity()
+      if(totalQuantity >= 10) {
+        alert('The cart is full')
+      }
+      else {
       const productId = button.dataset.productId
-      addToCart(productId);
-      totalQuantity++
-      document.querySelector('.js-cart-quantity').innerHTML = totalQuantity
+      let selectedQuantity = document.querySelector(`.js-quantity-selector-${productId}`).value
+      selectedQuantity = Number(selectedQuantity)
+      let i=1
+      while (i<=selectedQuantity) {
+        addToCart(productId);
+        i++
+      }
+
+      const addedItem = document.querySelector(`.js-added-to-cart${productId}`)
+      addedItem.classList.add('added')
     
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      
+      timeoutId = setTimeout(() => {
+        addedItem.classList.remove('added');
+      }, 2000);
+    
+      totalQuantity+=selectedQuantity
+      document.querySelector('.js-cart-quantity').innerHTML = totalQuantity
+  
+    
+    }
+ 
     })
 
 
   })
+
+
 
 }
